@@ -1,13 +1,34 @@
+ import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Categories from "./components/Categories";
-function App() {
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Shop from "./components/Shop";
+
+function Home() {
   return (
-    <div className="min-h-screen bg-[#FFF5E6]">
+    <>
       <Navbar />
       <Hero />
       <Categories />
-    </div>
+      <Shop />
+      <Login />
+      <Register />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
