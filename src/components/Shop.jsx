@@ -1,141 +1,87 @@
-
-import { useState } from "react";
-
-const products = [
-  {
-    id: 1,
-    name: "Wireless Headphones",
-    price: 2500,
-    image: "p9bluetooth.jpg",
-    category: "Electronics",
-  },
-  {
-    id: 2,
-    name: "Ladies Handbag",
-    price: 1800,
-    image: "hand bag.jpg",
-    category: "Fashion",
-  },
-  {
-    id: 3,
-    name: "Peppers",
-    price: 150,
-    image: "peppers.jpg",
-    category: "Groceries",
-  },
-  {
-    id: 4,
-    name: "Table Lamp",
-    price: 2000,
-    image: "bed lamp.jpg",
-    category: "Home",
-  },
-  {
-    id: 5,
-    name: "Shoes",
-    price: 2200,
-    image: "nike shoes.jpg",
-    category: "Fashion",
-  },
-  {
-    id: 6,
-    name: "Smart Watch",
-    price: 5000,
-    image: "smart watch.jpg",
-    category: "Electronics",
-  },
-  {
-    id: 7,
-    name: "Bed",
-    price: 16999,
-    image: "bed.jpg",
-    category: "Home",
-  },
-  {
-    id: 8,
-    name: "Closet Dress",
-    price: 4500,
-    image: "closet dress.jpg",
-    category: "Fashion",
-  },
-];
+import { useEffect, useState } from "react";
+import { useCart } from "./CartContext";
 
 function Shop() {
+  const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All Products");
-  const [cart, setCart] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const { addToCart } = useCart();
 
   const categories = [
     "All Products",
+    "Beauty",
+    "Fragrances",
+    "Furniture",
     "Groceries",
-    "Fashion",
-    "Electronics",
-    "Home",
   ];
+
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        setLoading(true);
+        setError("");
+
+        const response = await fetch(
+          "https://dummyjson.com/products?limit=100"
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+
+        const data = await response.json();
+        setProducts(data.products);
+      } catch (err) {
+        setError("Unable to load products. Please try again.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProducts();
+  }, []);
 
   const filteredProducts =
     selectedCategory === "All Products"
       ? products
       : products.filter(
-          (product) => product.category === selectedCategory
+          (product) => product.category === selectedCategory.toLowerCase()
         );
 
-  const addToCart = (product) => {
-    setCart((previousCart) => {
-      const existingProduct = previousCart.find(
-        (item) => item.id === product.id
-      );
+  if (loading) {
+    return (
+      <div className="text-center py-20 text-xl">
+        Loading products...
+      </div>
+    );
+  }
 
-      if (existingProduct) {
-        return previousCart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-
-      return [...previousCart, { ...product, quantity: 1 }];
-    });
-  };
-
-  const cartCount = cart.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
-
-  const cartTotal = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+  if (error) {
+    return (
+      <div className="text-center py-20 text-red-600">
+        {error}
+      </div>
+    );
+  }
 
   return (
-    <section className="min-h-screen bg-[#F1F1F1] px-8 py-12 md:px-16">
+    <section className="max-w-7xl mx-auto px-6 py-12">
+      <h1 className="text-4xl font-bold text-[#426F65] mb-8">
+        Shop Our Products
+      </h1>
 
-      <div className="mb-8 text-center">
-        <h1 className="mb-3 text-4xl font-bold text-[#426F65]">
-          Explore Our Products
-        </h1>
-
-        <p className="text-lg text-gray-600">
-          Find everything you need, all in one place.
-        </p>
-      </div>
-
-      
-      <div className="mb-10 flex justify-end">
-        <div className="rounded-lg bg-[#426F65] px-6 py-3 text-white">
-          🛒 Cart: {cartCount} items
-        </div>
-      </div>
-
-      <div className="mb-12 flex flex-wrap justify-center gap-4">
+      <div className="flex flex-wrap gap-3 mb-10">
         {categories.map((category) => (
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`rounded-full border border-[#426F65] px-6 py-3 transition ${
+            className={`px-5 py-2 rounded-full border transition ${
               selectedCategory === category
                 ? "bg-[#426F65] text-white"
-                : "bg-white text-[#426F65] hover:bg-[#426F65] hover:text-white"
+                : "bg-white text-gray-700 hover:bg-gray-100"
             }`}
           >
             {category}
@@ -143,44 +89,50 @@ function Shop() {
         ))}
       </div>
 
-      
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {filteredProducts.map((product) => (
-          <div
-            key={product.id}
-            className="rounded-xl bg-white p-4 shadow-sm transition hover:shadow-lg"
-          >
-            <img
-              src={product.image}
-              alt={product.name}
-              className="mb-4 h-52 w-full object-contain"
-            />
-
-            <h2 className="text-lg font-semibold text-gray-800">
-              {product.name}
-            </h2>
-
-            <p className="mt-2 font-bold text-[#426F65]">
-              KSh {product.price.toLocaleString("en-KE")}
-            </p>
-
-            <button
-              onClick={() => addToCart(product)}
-              className="mt-4 w-full rounded-lg bg-[#426F65] py-3 text-white transition hover:bg-[#31574F]"
+      {filteredProducts.length === 0 ? (
+        <p className="text-gray-600">No products found in this category.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-7">
+          {filteredProducts.map((product) => (
+            <div
+              key={product.id}
+              className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition"
             >
-              Add to Cart
-            </button>
-          </div>
-        ))}
-      </div>
+              <img
+                src={product.thumbnail}
+                alt={product.title}
+                className="w-full h-52 object-cover"
+              />
 
-    
-      <div className="mt-12 rounded-xl bg-white p-6 text-right shadow-sm">
-        <h2 className="text-xl font-bold text-[#426F65]">
-          Cart Total: KSh {cartTotal.toLocaleString("en-KE")}
-        </h2>
-      </div>
+              <div className="p-5">
+                <h2 className="font-semibold text-lg mb-2">
+                  {product.title}
+                </h2>
 
+                <p className="text-gray-500 text-sm mb-3 capitalize">
+                  {product.category}
+                </p>
+
+                <p className="text-[#426F65] font-bold text-xl mb-4">
+                  KSh {Math.round(product.price * 130).toLocaleString()}
+                </p>
+
+                <button
+                  onClick={() =>
+                    addToCart({
+                      ...product,
+                      price: Math.round(product.price * 130),
+                    })
+                  }
+                  className="w-full bg-[#426F65] text-white py-2 rounded-lg hover:bg-green-800 transition"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 }
