@@ -10,12 +10,12 @@ const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState(() => {
-    const savedCart = localStorage.getItem("zuri-cart");
+    const savedCart = localStorage.getItem("luna-cart");
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
   useEffect(() => {
-    localStorage.setItem("zuri-cart", JSON.stringify(cart));
+    localStorage.setItem("luna-cart", JSON.stringify(cart));
   }, [cart]);
 
   // Add product
