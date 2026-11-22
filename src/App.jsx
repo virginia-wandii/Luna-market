@@ -6,6 +6,8 @@ import Categories from "./components/Categories";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Shop from "./components/Shop";
+import About from "./components/About";
+import Contact from "./components/Contact";
 
 function Home() {
   return (
@@ -16,6 +18,8 @@ function Home() {
       <Shop />
       <Login />
       <Register />
+      <About />
+      <Contact />
     </>
   );
 }

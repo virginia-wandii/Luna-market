@@ -3,36 +3,61 @@ const products = [
     id: 1,
     name: "Wireless Headphones",
     price: "KSh 2,500",
-    image: "/images/headphones.png",
+    image: "p9bluetooth.jpg",
     category: "Electronics",
   },
   {
     id: 2,
     name: "Ladies Handbag",
     price: "KSh 1,800",
-    image: "/images/handbag.png",
+    image: "hand bag.jpg",
     category: "Fashion",
   },
   {
     id: 3,
-    name: "Fresh Avocados",
+    name: "peppers",
     price: "KSh 150",
-    image: "/images/avocados.png",
+    image: "peppers.jpg",
     category: "Groceries",
   },
   {
     id: 4,
     name: "Table Lamp",
     price: "KSh 2,000",
-    image: "/images/lamp.png",
+    image: "bed lamp.jpg",
     category: "Home",
   },
   {
     id: 5,
     name: "shoes",
     price: "Ksh 2,200",
-    image: "",
-  }
+    image: "nike shoes.jpg",
+    category:"Fashion",
+  },
+  {
+    id:6,
+    name: "smart watch",
+    price: "Ksh 5000",
+    image: "smart watch.jpg",
+    category:"Electronics",
+  },
+  {
+    id:7,
+    name: "bed",
+    price: "Ksh 16,999",
+    image: "bed.jpg",
+    category:"Home",
+  },
+  {
+    id:8,
+    name: "closet dress",
+    price: "Ksh 4500",
+    image: "closet dress.jpg",
+    category:"Fashion",
+  },
+
+
+
 ];
 
 function Shop() {
@@ -49,7 +74,7 @@ function Shop() {
         </p>
       </div>
 
-      {/* Category Filters */}
+      
       <div className="flex flex-wrap justify-center gap-4 mb-12">
         {["All Products", "Groceries", "Fashion", "Electronics", "Home"].map(
           (category) => (
@@ -63,7 +88,7 @@ function Shop() {
         )}
       </div>
 
-      {/* Products */}
+    
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         {products.map((product) => (
           <div
