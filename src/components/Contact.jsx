@@ -117,7 +117,7 @@ function Contact() {
           </form>
         </div>
 
-        {/* Contact Information */}
+
         <div className="rounded-2xl bg-[#123D2C] p-8 text-white">
           <h2 className="mb-6 text-2xl font-bold">
             Contact Information
