@@ -1,20 +1,10 @@
 const categories = [
-  {
-    name: "Categories",
-    image: "/categories.png",
-  },
-  {
-    name: "Electronics",
-    image: "/headphones.png",
-  },
-  {
-    name: "Fashion",
-    image: "/fashion.png",
-  },
-  {
-    name: "Home",
-    image: "/home.png",
-  },
+  { name: "Categories", image: `${import.meta.env.BASE_URL}categories.png` },
+  { name: "Electronics", image: `${import.meta.env.BASE_URL}headphones.png` },
+  
+  { name: "Fashion", image: `${import.meta.env.BASE_URL}fashion.png` },
+  { name: "Home", image: `${import.meta.env.BASE_URL}home.png` },
+
 ];
 
 function Categories() {
