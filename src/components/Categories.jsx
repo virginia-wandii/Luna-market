@@ -1,19 +1,19 @@
 const categories = [
   {
     name: "Categories",
-    image: "categories.png",
+    image: "/categories.png",
   },
   {
     name: "Electronics",
-    image: "headphones.png",
+    image: "/headphones.png",
   },
   {
     name: "Fashion",
-    image: "fashion.png",
+    image: "/fashion.png",
   },
   {
     name: "Home",
-    image: "home.png",
+    image: "/home.png",
   },
 ];
 
